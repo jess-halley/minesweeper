@@ -1,22 +1,22 @@
 document.addEventListener('DOMContentLoaded', startGame)
 
 // Board Variables
-var rowLength = 4;
-var colLength = 4;
+var boardSize = 6;
+var difficulty = 0.2;
 var board = {
   cells:[]
 
 };
 
 // Generate Cell Function
-function generateCell() {
-for(var i = 0; i< rowLength; i++) {
-  for(var y = 0; y< colLength; y++) {
+function generateCells() {
+for(var x = 0; x < boardSize; x++) {
+  for(var y = 0; y < boardSize; y++) {
   var createCell = {
-      row: i,
+      row: x,
       col: y,
       isMarked: false,
-      isMine: false,
+      isMine: generateMine(),
       hidden: true
     }
     board.cells.push(createCell);
@@ -24,9 +24,20 @@ for(var i = 0; i< rowLength; i++) {
   }
 }
 
+// Random Mine Generator
+function generateMine(){
+  var mine = Math.random();
+  if (mine < difficulty){
+    return true;
+  }
+  else{
+    return false;
+  }
+}
+
 // Start Game Function
 function startGame () {
-  generateCell();
+  generateCells();
   for (var i=0; i<board.cells.length; i++){
     board.cells[i].surroundingMines = countSurroundingMines(board.cells[i]);
   }
